@@ -7,7 +7,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase/FirebaseConfig'; 
 import io from "socket.io-client"
 
-const socket=io.connect("http://localhost:3003")
+
 
 function MyState(props) {
     const [mode, setMode] = useState('light');

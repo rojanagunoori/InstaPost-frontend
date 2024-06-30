@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import myContext from '../../context/data/myContext';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
+import Layout from '../../compoents/layout/Layout';
 
 function PostInfo() {
   const context = useContext(myContext);
@@ -95,7 +96,7 @@ function PostInfo() {
   };
 
   return (
-    <div>
+    <Layout>
       {postData ? (
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-10 mx-auto max-w-7xl">
@@ -199,7 +200,7 @@ function PostInfo() {
       ) : (
         <div>Loading...</div>
       )}
-    </div>
+    </Layout>
   );
 }
 

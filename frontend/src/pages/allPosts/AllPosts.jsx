@@ -4,6 +4,7 @@ import myContext from '../../context/data/myContext';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../../compoents/layout/Layout';
 
 function AllPosts() {
   const context = useContext(myContext);
@@ -141,6 +142,7 @@ function AllPosts() {
   };
 
   return (
+    <Layout>
     <div>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-10 mx-auto max-w-7xl">
@@ -298,6 +300,7 @@ function AllPosts() {
         </div>
       </section>
     </div>
+    </Layout>
   );
 }
 
