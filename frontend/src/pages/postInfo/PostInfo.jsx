@@ -1,10 +1,10 @@
 import { Button } from '@material-tailwind/react';
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import myContext from '../../context/data/myContext';
+import myContext from '../../context/data/MyContext';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
-import Layout from '../../compoents/layout/Layout';
+import Layout from '../../components/layout/Layout';
 
 function PostInfo() {
   const context = useContext(myContext);

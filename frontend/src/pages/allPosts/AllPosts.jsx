@@ -1,10 +1,10 @@
 import { Button } from '@material-tailwind/react';
 import React, { useContext, useState, useEffect } from 'react';
-import myContext from '../../context/data/myContext';
+import myContext from '../../context/data/MyContext';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../../compoents/layout/Layout';
+import Layout from '../../components/layout/Layout';
 
 function AllPosts() {
   const context = useContext(myContext);

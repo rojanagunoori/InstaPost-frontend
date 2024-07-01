@@ -1,12 +1,15 @@
 import { Button } from '@material-tailwind/react';
 import React, { useContext, useState, useEffect } from 'react';
-import myContext from '../../context/data/myContext';
+import myContext from '../../context/data/MyContext';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
+import SocketContext from '../../context/data/SocketContext';
+import socket from '../../socket/socket';
 
 function PostPostCard() {
   const context = useContext(myContext);
-  const { mode, getAllPost } = context;
+  const { mode, getAllPost ,user} = context;
+ // const socket = useContext(SocketContext); 
 
   const [likeCounts, setLikeCounts] = useState({});
   const [dislikeCounts, setDislikeCounts] = useState({});
@@ -42,6 +45,12 @@ function PostPostCard() {
       likes: (likeCounts[id] || 0) + 1
     });
     setLikeCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+
+    const post = getAllPost.find(post => post.id === id);
+  const postOwner = post?.userId; 
+  const postDescription = post?.description;
+  console.log(post)
+  socket.emit('like', { user: user?.displayName || user?.email, postOwner, description: postDescription });
   };
 
   const handleDislike = async (id) => {
@@ -50,6 +59,13 @@ function PostPostCard() {
       dislikes: (dislikeCounts[id] || 0) + 1
     });
     setDislikeCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+    const post = getAllPost.find(post => post.id === id);
+    const postOwner = post?.userId; 
+    const postDescription = post?.description;
+    console.log(post)
+    socket.emit('dislike', { user: user?.displayName || user?.email, postOwner, description: postDescription });
+
+   
   };
 
   const handleAddComment = async (id) => {
@@ -65,6 +81,14 @@ function PostPostCard() {
       [id]: [...(prev[id] || []), { text: newComment, likes: 0, dislikes: 0 }]
     }));
     setNewComment('');
+
+
+    const post = getAllPost.find(post => post.id === id);
+    const postOwner = post?.userId; 
+    const postDescription = post?.description;
+    console.log(post)
+    socket.emit('comment', { user: user?.displayName || user?.email, postOwner, description: postDescription });
+
   };
 
   const handleCommentLike = async (postId, commentIndex) => {

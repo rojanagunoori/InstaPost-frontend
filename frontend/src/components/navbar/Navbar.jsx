@@ -9,7 +9,7 @@ import {
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShareAlt, AiOutlineSearch } from 'react-icons/ai'
-import myContext from "../../context/data/myContext";
+import myContext from "../../context/data/MyContext";
 import SearchDialog from "../searchDialog/SearchDialog";
 import ShareDialogBox from "../shareDialogBox/ShareDialogBox";
 

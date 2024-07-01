@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import myContext from '../../context/data/myContext';
+import myContext from '../../context/data/MyContext';
 import { Dialog, DialogBody, DialogFooter, Button } from "@material-tailwind/react";
 import { BsSearch } from "react-icons/bs";
 

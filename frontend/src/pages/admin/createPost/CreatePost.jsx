@@ -1,15 +1,18 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import myContext from '../../../context/data/myContext';
+import MyContext from '../../../context/data/MyContext';
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@material-tailwind/react";
 import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import toast from 'react-hot-toast';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { fireDb, storage } from '../../../firebase/FirebaseConfig';
+//import SocketContext from '../../../context/data/SocketContext'; // Import SocketContext
+import socket from '../../../socket/socket';
 
 function Createpost() {
-    const context = useContext(myContext);
+    const context = useContext(MyContext);
+    //const socket = useContext(SocketContext); // Use SocketContext
     const { mode, user } = context; // Get user from context
     const navigate = useNavigate();
 
@@ -22,7 +25,6 @@ function Createpost() {
     });
     const [thumbnail, setThumbnail] = useState();
 
-    //* Add Post Function 
     const addPost = async () => {
         if (posts.description === "" || !thumbnail) {
             toast.error('Please Fill All Fields');
@@ -31,7 +33,6 @@ function Createpost() {
         uploadImage();
     }
 
-    //* Upload Image Function 
     const uploadImage = () => {
         if (!thumbnail) return;
         const imageRef = ref(storage, `postimage/${thumbnail.name}`);
@@ -42,7 +43,7 @@ function Createpost() {
                     addDoc(productRef, {
                         ...posts,
                         thumbnail: url,
-                        userId: user?.uid, // Add userId to the post post
+                        userId: user?.uid,
                         time: Timestamp.now(),
                         date: new Date().toLocaleString("en-US", {
                             month: "short",
@@ -50,6 +51,10 @@ function Createpost() {
                             year: "numeric",
                         })
                     });
+                    socket.emit('new post', {
+                        user: user?.displayName || user?.email,
+                        description: posts.description
+                    }); // Emit the new post event
                     navigate('/dashboard');
                     toast.success('Post Added Successfully');
                 } catch (error) {
@@ -59,10 +64,6 @@ function Createpost() {
             });
         });
     }
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
     return (
         <div className='container mx-auto max-w-5xl py-6'>

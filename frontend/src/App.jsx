@@ -1,7 +1,6 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import io from "socket.io-client";
 import Home from "./pages/home/Home";
 import Post from "./pages/post/Post";
 import AllPosts from "./pages/allPosts/AllPosts";
@@ -12,47 +11,39 @@ import Dashboard from "./pages/admin/dashboard/Dashboard";
 import MyState from "./context/data/myState";
 import CreatePost from "./pages/admin/createPost/CreatePost";
 import { Toaster } from "react-hot-toast";
-import MyContext from './context/data/myContext';
+import MyContext from './context/data/MyContext';
+import Chat from './components/Chat/Chat';
+import './App.css';
 
-const socket = io.connect("http://localhost:3003"); // Ensure this matches the backend URL
+
 
 const App = () => {
-    const [message, setMessage] = useState("");
-    const [messageReceived, setMessageReceived] = useState("");
-    const [joinRoom, setJoinRoom] = useState("");
+    const [userId, setUserId] = useState('');
+  const [peerId, setPeerId] = useState('');
 
-    const sendMessage = () => {
-        socket.emit("send_message", { message, joinRoom });
-    };
-
-    const sendRoom = () => {
-        if (joinRoom !== "") {
-            socket.emit("join_room", joinRoom);
-        }
-    };
-
-    useEffect(() => {
-        socket.on("receive_message", (data) => {
-            setMessageReceived(data.message);
-        });
-
-        socket.on('new_post_post', (data) => {
-            // Handle the new post post notification here
-            console.log('New post post:', data);
-        });
-
-    }, []);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setUserId(e.target.userId.value);
+    setPeerId(e.target.peerId.value);
+  };
 
     return (
         <>
-            <div className="App">
-                <input placeholder="Room Number" onChange={(e) => { setJoinRoom(e.target.value) }} />
-                <button onClick={sendRoom}>Join Room</button>
-                <input placeholder="Message...." onChange={(e) => { setMessage(e.target.value) }} />
-                <button onClick={sendMessage}>Send Message</button>
-                <h1>Message:</h1>
-                {messageReceived}
-            </div>
+        {/* <div className="App">
+      {!userId ? (
+        <form onSubmit={handleLogin} className="login-form">
+          <input name="userId" type="text" placeholder="Your Username" required />
+          <input name="peerId" type="text" placeholder="Peer Username" required />
+          <button type="submit">Login</button>
+        </form>
+      ) : (
+        <>
+          <h1>Private Chat App</h1>
+          <Chat userId={userId} peerId={peerId} />
+        </>
+      )}
+    </div>*/}
+            
             <MyState>
                 <Router>
                     <Routes>

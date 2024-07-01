@@ -3,7 +3,7 @@ import {
     Dialog,
     DialogBody,
 } from "@material-tailwind/react";
-import myContext from "../../context/data/myContext";
+import myContext from "../../context/data/MyContext";
 import { AiOutlineShareAlt, AiFillLinkedin, AiFillInstagram, AiFillGithub, AiFillFacebook } from 'react-icons/ai';
 
 export default function ShareDialogBox() {

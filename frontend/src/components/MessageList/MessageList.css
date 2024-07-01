@@ -1,0 +1,26 @@
+.message-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .message-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    word-wrap: break-word;
+  }
+  
+  .message-own {
+    background-color: #d1ffd6;
+    text-align: right;
+  }
+  
+  .message-peer {
+    background-color: #f1f1f1;
+    text-align: left;
+  }
+  
